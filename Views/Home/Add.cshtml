@@ -1,0 +1,106 @@
+﻿@model ATEC_BOOK_LENDING.Model.User;
+
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        Add Users
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Add", "Home", FormMethod.Post, new { id = "myForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row mb-3">
+                   <div class="col-md-4">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name)
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "")
+                    </div>
+               
+                   </div>
+               
+                   <div class="col-md-4">
+                          <div class="form-group">
+                              @Html.LabelFor(model => model.MiddleName)
+                              @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                              @Html.ValidationMessageFor(model => model.MiddleName, "")
+                          </div>
+                    </div>
+                   <div class="col-md-4">
+                         <div class="form-group">
+                              @Html.LabelFor(model => model.Surname)
+                              @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                              @Html.ValidationMessageFor(model => model.Surname, "")
+                         </div>
+                   </div>
+               </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit" id="addsubmit">
+                            <div id="submittxt">Submit</div>
+                        
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }      
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myForm').validate({
+                rules: {
+                    "Name": {
+                        required: true
+                    },
+                    "MiddleName": {
+                        required: true
+                    },
+                    "Surname": {
+                        required: true
+                    }
+                    // Add more rules for other fields if needed
+                },
+                messages: {
+                    "Name": {
+                        required: "Name is required."
+                    },
+                    "MiddleName": {
+                        required: "Middle Name is required."
+                    },
+                    "Surname": {
+                        required: "Surname is required."
+                    }
+                    // Add more messages for other fields if needed
+                },
+                errorElement: 'div',
+                errorPlacement: function (error, element) {
+                    error.addClass('text-danger');
+                    error.insertAfter(element);
+                },
+                submitHandler: function (form) {
+                            // Display a loading indicator next to the submit button
+                    var submittxt = $('#submittxt');
+                    submittxt.html('<span class= "spinner-border spinner-border-sm" role = "status" > </span>   Loading...');
+
+                    var submitButton = $('#addsubmit')
+                    submitButton.prop('disabled', true);
+
+                    //setTimeout(function () {
+                    //    form.submit();
+                    //}, 2000);
+                    form.submit();
+                }
+            });
+        });
+    </script>
+}

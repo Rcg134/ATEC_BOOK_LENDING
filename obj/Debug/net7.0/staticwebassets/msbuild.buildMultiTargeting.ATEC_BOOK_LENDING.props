@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ATEC_BOOK_LENDING.props" />
+</Project>

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ATEC_BOOK_LENDING.DTO.UserDTO>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h2>User List</h2>
+
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.ActionLink("Add", "Add", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Middle Name</th>
+                    <th>Surname</th>
+                    @*       <th>Created Date</th>*@
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var user in Model)
+                    {
+
+                        <tr>
+                            <td class="text-center"> <a class="btn btn-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@user.UserId">Edit</a> <button class="btn btn-danger">Delete</button></td>
+                            <td>@user.UserId</td>
+                            <td>@user.Name</td>
+                            <td>@user.MiddleName</td>
+                            <td>@user.Surname</td>
+                            @*                  <td>@user.CreatedDate</td>*@
+                            <td>@(user.Active.HasValue && user.Active.Value ? "Yes" : "No")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="text-center">No data</td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+</div>
+
