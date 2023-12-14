@@ -70,7 +70,7 @@ namespace ATEC_BOOK_LENDING.Controllers
 
         }
 
-       [HttpGet("Edit/{id}")]
+       [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             var getDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);
@@ -78,14 +78,14 @@ namespace ATEC_BOOK_LENDING.Controllers
         }
 
 
-        [HttpPost("Edit/{id}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, User editUser)
         {
 
             try
             {
-                var getDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.Surname == editUser.Surname);
+                var getDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);
 
                 if (ModelState.IsValid && getDetails != null)
                 {
@@ -103,6 +103,40 @@ namespace ATEC_BOOK_LENDING.Controllers
             {
                 ModelState.AddModelError(string.Empty, ex.ToString());
                 return View(editUser);
+            }
+        }
+
+
+        public  async Task<ActionResult> Delete(int id)
+        {
+            var UserDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);  
+
+            return PartialView("_DeleteUser", UserDetails);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(User usr)
+        {
+
+            try
+            {
+                var getDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == usr.UserId);
+
+                if (getDetails != null)
+                {
+                    _bookContext.Users.Remove(getDetails);
+                    _bookContext.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.ToString());
+                return RedirectToAction("Index");
             }
         }
 
