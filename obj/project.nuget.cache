@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "CfcujvLwVhC9/MTBlhJ8ipaPLwhyRFz/1wLg2AEzjT0k5JKmlq4ccM0Osq+e/vOOvydYdbs0piAvAw35bzeQvQ==",
+  "dgSpecHash": "dQGhuh75v5MF8qQM7+Nw2A2ImaOZ1txCLXh/KqsNSXXbGUOH3Z63kEtXxqWPVnNi9uryXMKB443aJOAbXsw2pA==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\Documents\\GitHub\\ATEC_BOOK_LENDING\\ATEC_BOOK_LENDING.csproj",
   "expectedPackageFiles": [
@@ -63,11 +63,7 @@
     "C:\\Users\\User\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.14\\microsoft.windowsdesktop.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.14\\microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.14\\microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512",
-    "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.14\\microsoft.netcore.app.host.win-x64.7.0.14.nupkg.sha512"
+    "C:\\Users\\User\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

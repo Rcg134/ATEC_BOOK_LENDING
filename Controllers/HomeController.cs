@@ -1,11 +1,13 @@
 ﻿using ATEC_BOOK_LENDING.Context;
 using ATEC_BOOK_LENDING.DTO;
+using ATEC_BOOK_LENDING.GenericClass;
 using ATEC_BOOK_LENDING.Model;
 using ATEC_BOOK_LENDING.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ATEC_BOOK_LENDING.Controllers
 {
@@ -14,23 +16,38 @@ namespace ATEC_BOOK_LENDING.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly BookContext _bookContext;
 
-        public HomeController(ILogger<HomeController> logger , BookContext bookContext)
+
+        Pagination Ipaginate = new Pagination();
+
+        public HomeController(ILogger<HomeController> logger, BookContext bookContext)
         {
             _logger = logger;
             _bookContext = bookContext;
         }
-        [HttpGet]
-        public async Task<IActionResult>Index()
+        [HttpGet("{page}")]
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 2)
         {
 
-            var UserDTO = await _bookContext.Users.Select( x => new UserDTO
+            var UserDTOquery = _bookContext.Users.Select(x => new UserDTO
             {
-               UserId = x.UserId,
-               Name = x.Name,
-               MiddleName = x.MiddleName,
-               Surname = x.Surname,
-               Active = x.Active,
-            }).ToListAsync();
+                UserId = x.UserId,
+                Name = x.Name,
+                MiddleName = x.MiddleName,
+                Surname = x.Surname,
+                Active = x.Active,
+            }).OrderBy(iuserDTO => iuserDTO.Surname);
+
+            var (iPage, totalPages, iPageSize, totalRecords) = Ipaginate.CalculateTotalRecordsAndPages(UserDTOquery, page, pageSize);
+
+            ViewBag.CurrentPage = iPage;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.PageSize = iPageSize;
+
+            var UserDTO = await UserDTOquery
+                .Skip((iPage - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
             return View(UserDTO);
         }
 
@@ -57,7 +74,7 @@ namespace ATEC_BOOK_LENDING.Controllers
                     addUser.CreatedDate = DateTime.Now;
                     _bookContext.Users.Add(addUser);
                     await _bookContext.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new {page = 1});
                 }
                 return View(addUser);
 
@@ -66,11 +83,11 @@ namespace ATEC_BOOK_LENDING.Controllers
             {
                 return View(addUser);
             }
-            
+
 
         }
 
-       [HttpGet]
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             var getDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);
@@ -93,7 +110,7 @@ namespace ATEC_BOOK_LENDING.Controllers
                     getDetails.MiddleName = editUser.MiddleName;
                     getDetails.Surname = editUser.Surname;
                     await _bookContext.SaveChangesAsync();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", new { page = 1 });
                 }
                 ModelState.AddModelError(string.Empty, "Null");
                 return View(editUser);
@@ -107,9 +124,9 @@ namespace ATEC_BOOK_LENDING.Controllers
         }
 
 
-        public  async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var UserDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);  
+            var UserDetails = await _bookContext.Users.SingleOrDefaultAsync(x => x.UserId == id);
 
             return PartialView("_DeleteUser", UserDetails);
         }
@@ -130,13 +147,13 @@ namespace ATEC_BOOK_LENDING.Controllers
                     _bookContext.SaveChanges();
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { page = 1 });
 
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.ToString());
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { page = 1 });
             }
         }
 

@@ -22,9 +22,10 @@
                         foreach (var user in Model)
                         {
                             <tr>
-                                <td class="text-center"> <a class="btn btn-warning" asp-action="Edit" asp-route-id="@user.UserId">Edit</a>
-                                                         <button class="btn btn-danger delete-user" data-user-id="@user.UserId">Delete</button>
-                                                  </td>
+                                <td class="text-center">
+                                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@user.UserId">Edit</a>
+                                    <button class="btn btn-danger delete-user" data-user-id="@user.UserId">Delete</button>
+                                </td>
                                 <td>@user.UserId</td>
                                 <td>@user.Name</td>
                                 <td>@user.MiddleName</td>
@@ -44,6 +45,17 @@
                 </tbody>
             </table>
         </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                   <a class="page-link" href="@Url.Action("Index", new { page = i})">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
 
     </div>
 </div>
