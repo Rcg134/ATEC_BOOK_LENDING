@@ -3,6 +3,9 @@ using ATEC_BOOK_LENDING.DTO;
 using ATEC_BOOK_LENDING.GenericClass;
 using ATEC_BOOK_LENDING.Model;
 using ATEC_BOOK_LENDING.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +14,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ATEC_BOOK_LENDING.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -24,8 +28,9 @@ namespace ATEC_BOOK_LENDING.Controllers
             _logger = logger;
             _bookContext = bookContext;
         }
-        [HttpGet("{page}")]
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 2)
+        [Authorize(Policy = "AdminOnly")]
+        [HttpGet("{page=1}")]
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 10)
         {
 
             var UserDTOquery = _bookContext.Users.Select(x => new UserDTO
@@ -162,6 +167,13 @@ namespace ATEC_BOOK_LENDING.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index","LogIN");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

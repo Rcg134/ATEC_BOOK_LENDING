@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ATEC_BOOK_LENDING")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+446f688eb4e31e840f73bd70b12febcbdec1abba")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5126bbb53546cfdce821cc51dc36264b2da067d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ATEC_BOOK_LENDING")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ATEC_BOOK_LENDING")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
